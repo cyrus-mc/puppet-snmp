@@ -1,0 +1,14 @@
+{
+  "name": "8x8-snmpd",
+  "version": "1.0.0",
+  "author": "8x8",
+  "summary": "Puppet module for snmpd management",
+  "license": "Apache 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
