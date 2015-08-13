@@ -1,0 +1,79 @@
+###############################################################################
+# managed by puppet
+#
+# Served by:           '<%= scope.lookupvar('::servername') %>
+# Module:              '<%= scope.to_hash['module_name'] %>'
+# Template source:     'MODULES<%= template_source.gsub(Regexp.new("^#{Puppet::Node::Environment.current[:modulepath].gsub(':', '|')}"),"") %>'
+#
+# snmpd.conf:
+#   An example configuration file for configuring the ucd-snmp snmpd agent.
+#
+###############################################################################
+#
+# This file is intended to only be as a starting point.  Many more
+# configuration directives exist than are mentioned in this file.  For 
+# full details, see the snmpd.conf(5) manual page.
+#
+# All lines beginning with a '#' are comments and are intended for you
+# to read.  All other lines are configuration commands for the agent.
+
+###############################################################################
+# Agent Behaviour
+###############################################################################
+<% if (@agentaddress.is_a?(Array)) and (@agentaddress.count > 0) -%>
+aggentaddress <%= @agentaddress.join(',') %>
+<% end -%>
+
+###############################################################################
+# Access Control
+
+# -----------------------------------------------------------------------------
+# traditional access control
+
+<% if !@ro_community.empty? -%>
+rocommunity <%= @ro_community %> <%= @ro_network %>
+<% end -%>
+<% if !@rw_community.empty? -%>
+rwcommunity <%= @rw_community %> <%= @rw_network %>
+<% end -%>
+
+# -----------------------------------------------------------------------------
+# VACM Configuration
+
+#       sec.name      source        community
+<% if @com2sec.any? -%>
+<% @com2sec.each do |com2sec| -%>
+com2sec <%= com2sec %>
+<% end -%>
+<% end -%>
+
+#       groupName     securityModel securityName
+<% if @groups.any? -%>
+<% @groups.each do |group| -%>
+group <%= group %>
+<% end -%>
+<% end -%>
+
+#       name          incl/excl     subtree       mask(optional)
+<% if @views.any? -%>
+<% @views.each do |view| -%>
+view <%= view %>
+<% end -%>
+<% end -%>
+
+#       group         context       sec.model     sec.level      prefix   read    write   notif
+<% if @access.any? -%>
+<% @access.each do |access| -%>
+access <%= access %>
+<% end -%>
+<% end -%>
+
+
+###############################################################################
+# System contact information
+#
+
+<% if !@sysname.empty? %>sysName <%= @sysname -%><% end %>
+<% if !@location.empty? %>sysLocation <%= @location %><% end %>
+<% if !@contact.empty? %>sysContact <%= @contact %><% end %>
+
